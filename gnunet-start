@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -s" gnunet 2> /home/user/system.log
+/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -s 2> /home/user/user.log
+

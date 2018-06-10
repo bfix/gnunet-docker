@@ -1,0 +1,118 @@
+
+############################################################
+# Dockerfile to build  ">Y< GNUnet" build image.
+# Copyright (c) 2016-2018 by Bernd Fix. All rights reserved.
+############################################################
+
+FROM debian:stretch
+
+MAINTAINER Bernd Fix <brf@hoi-polloi.org>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+#-----------------------------------------------------------
+# Install dependencies.
+#-----------------------------------------------------------
+
+RUN \
+	apt-get update && \
+	apt-get -y install \
+		build-essential \
+		git \
+		gnutls-bin \
+		libextractor-dev \
+		libidn11-dev \
+		libgcrypt-dev \
+		libgnutls28-dev \
+		libgladeui-dev \
+		libglpk-dev \
+		libgtk-3-dev \
+		libmicrohttpd-dev \
+		libopus-dev \
+		libogg-dev \
+		libpulse-dev \
+		libqrencode-dev \
+		libsqlite3-dev \
+		libtool \
+		libunique-3.0-dev \
+		libunistring-dev \
+		openssl \
+		python-zbar \
+		texinfo \
+		texlive \
+		zlib1g-dev \
+		&& \
+	apt-get clean all && \
+	apt-get -y autoremove --purge && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+#===========================================================
+# GNUnet CORE
+#===========================================================
+
+ENV GNUNET_VERSION v0.11.0pre66
+
+#-----------------------------------------------------------
+# Get GNUnet source code (latest revision)
+#-----------------------------------------------------------
+
+RUN \
+	mkdir -p /opt/src && \
+	cd /opt/src && \
+	git clone https://gnunet.org/git/gnunet.git gnunet
+
+#-----------------------------------------------------------
+# Build GNUnet core
+#-----------------------------------------------------------
+
+ENV GNUNET_PREFIX /opt/gnunet
+
+RUN \
+	adduser --system --home /var/lib/gnunet --group --disabled-password gnunet && \
+	addgroup --system gnunetdns && \
+	cd /opt/src/gnunet && \
+	git checkout ${GNUNET_VERSION} && \
+	mkdir ${GNUNET_PREFIX} && \
+	./bootstrap && \
+	./configure \
+		--prefix=$GNUNET_PREFIX \
+		--enable-logging=verbose \
+		--with-sudo=sudo \
+		&& \
+	make && \
+	make install
+
+#===========================================================
+# GNUnet GTK
+#===========================================================
+
+#-----------------------------------------------------------
+# Get GNUnet GTKsource code (latest revision)
+#-----------------------------------------------------------
+
+RUN \
+	cd /opt/src && \
+	git clone https://gnunet.org/git/gnunet-gtk.git gnunet-gtk
+
+#-----------------------------------------------------------
+# Build GNUnet GTK
+#-----------------------------------------------------------
+
+RUN \
+	cd /opt/src/gnunet-gtk && \
+	git checkout ${GNUNET_VERSION} && \
+	./bootstrap && \
+	./configure \
+		--prefix=$GNUNET_PREFIX \
+		--with-gnunet=$GNUNET_PREFIX \
+		&& \
+	make && \
+	make install
+
+#===========================================================
+# Package binaries.
+#===========================================================
+
+RUN \
+	tar cvzf /opt/gnunet-0.11.0.tar.gz -C /opt/gnunet .
+

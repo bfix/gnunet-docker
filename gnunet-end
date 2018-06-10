@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -e
+sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -e" gnunet
+

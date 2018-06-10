@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export PATH=/opt/gnunet/bin:${PATH}
+
+gnunet-gns-import.sh
+gnunet-gns-proxy-setup-ca
+

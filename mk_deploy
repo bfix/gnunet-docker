@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker build -f Dockerfile.deploy -t bfix/gnunet .
+

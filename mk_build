@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function getfile() {
+	CID=$(docker create $1)
+	docker cp ${CID}:$2 $3
+	docker rm -v ${CID}
+}
+
+docker build -f Dockerfile.build -t bfix/gnunet-build .
+getfile bfix/gnunet-build:latest /opt/gnunet-0.11.0.tar.gz .
+
