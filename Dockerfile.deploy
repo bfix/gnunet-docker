@@ -89,3 +89,5 @@ USER user
 ENV HOME /home/user
 CMD ["/bin/bash", "-l"]
 
+EXPOSE 1080 2086
+
