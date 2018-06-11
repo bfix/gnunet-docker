@@ -33,6 +33,8 @@ The container is run using the `run_deploy` script:
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -v <local folder 1>:/home/user \
         -v <local folder 2>:/var/lib/gnunet \
+        -p 127.0.0.1:2086:2086 \
+        -p 127.0.0.1:1080:1080 \
         bfix/gnunet
 
 It maps two local directories into the container, the home directories of the
