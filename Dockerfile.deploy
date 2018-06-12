@@ -21,6 +21,7 @@ RUN \
 		libextractor3 \
 		libgladeui-2-6 \
 		libltdl7 \
+		libnss3-tools \
 		libsqlite3-0 \
 		libunique-3.0-0 \
 		libunistring0 \
