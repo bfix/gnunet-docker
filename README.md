@@ -1,7 +1,7 @@
 # gnunet-docker
-Dockerfiles for building and running GnuNET
+Dockerfiles for building and running GNUnet
 
-There are Dockerfiles to create two GnuNET images:
+There are Dockerfiles to create two GNUnet images:
 
 ## "GNUnet build" image (~2.5GB)
 
