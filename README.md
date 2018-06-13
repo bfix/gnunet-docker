@@ -16,7 +16,7 @@ into the current directory by the script after the build is complete.
 
 The Dockerfile specifies the Git revision/tag of the GNUnet repository to be
 build (`ENV GNUNET_VERSION v0.11.0pre66`) and needs be be changed if you want
-to buld a different version of GNUnet. The version must be consistent between
+to build a different version of GNUnet. The version must be consistent between
 core and Gtk repositories.
 
 ## "GNUnet run" image (~400MB)
@@ -62,12 +62,12 @@ for the local directories on your host system):
 
 It maps two local directories into the container, the home directories of the
 user `gnunet` (GNUnet system account) and `user` (GNUnet user account). Make
-sure that your local folders have the following uid/gid assignements:
+sure that your local folders have the following uid/gid assignments:
 
 * `local folder 1`: (uid=1000/gid=1000)
 * `local folder 2`: (uid=102/gid=102)
 
-You should copy the user's `gnunet.conf` to the `.config` directory in
+You have to copy the user's `gnunet.conf` to the `.config` subdirectory in
 `local folder 1` before running the container.
 
 When the container is started, a shell is opened for user `user` and no GNUnet
