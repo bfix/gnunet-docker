@@ -14,6 +14,11 @@ The corresponding Dockerfile (`Dockerfile.build`) is compiled into an image
 using the `mk_build` script. The archive with the compiled binaries is put
 into the current directory by the script after the build is complete.
 
+The Dockerfile specifies the Git revision/tag of the GnuNET repository to be
+build (`ENV GNUNET_VERSION v0.11.0pre66`) and needs be be changed if you want
+to buld a different version of GnuNET. The version must be consistent between
+core and Gtk repositories.
+
 ## "GnuNET run" image (~400MB)
 
 The "run" image is used to run GnuNET as a Docker container. It installs the
@@ -22,6 +27,22 @@ required runtime dependencies.
 
 The corresponding Dockerfile (`Dockerfile.deploy`) is compiled into an image
 using the `mk_deploy` script.
+
+### Customization
+
+Before building the `run image`, you might want to customize the runtime
+configuration to your needs:
+
+#### gnunet-system.conf
+
+This file will be copied to `/etc/gnunet.conf` and specifies the system
+configuration. The provided example file is an example of an IPv4-only
+system behind a punched NAT.
+
+#### gnunet-user.conf
+
+This file specifies the user configuration and need to be copied manually
+to the correct location (see "Running GnuNET").
 
 ### Running GnuNET in a Docker container
 
@@ -33,24 +54,23 @@ The container is run using the `run_deploy` script:
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -v <local folder 1>:/home/user \
         -v <local folder 2>:/var/lib/gnunet \
-        -p 127.0.0.1:2086:2086 \
-        -p 127.0.0.1:1080:1080 \
+        -p 0.0.0.0:2086:2086 \
+        -p 0.0.0.0:1080:1080 \
         bfix/gnunet
 
 It maps two local directories into the container, the home directories of the
 user `gnunet` (GnuNET system account) and `user` (GnuNET user account). Make
 sure that your local folders have the following uid/gid assignements:
 
-* local folder 1: (uid=1000/gid=1000)
-* local folder 2: (uid=102/gid=102)
+* `local folder 1`: (uid=1000/gid=1000)
+* `local folder 2`: (uid=102/gid=102)
+
+You should copy the user's `gnunet.conf` to the `.config` directory in
+`local folder 1` before running the container.
 
 When the container is started, a shell is opened for user `user` and no GnuNET
 programs are started. To start GnuNET (system and user part), run the
 `/usr/bin/gnunet-start` script.
-
-If you started GnuNET for the first time, initialize GnuNET by running the
-`/usr/bin/gnunet-user-init` script. Do this only once (or you will lose your
-previous keys!).
 
 You can now run GnuNET programs as you like.
 

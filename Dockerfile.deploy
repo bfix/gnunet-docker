@@ -52,7 +52,6 @@ COPY gnunet-system.conf		/etc/gnunet.conf
 COPY gnunet-ldconfig.conf	/etc/ld.so.conf.d/gnunet.conf
 COPY gnunet-start			/usr/bin/
 COPY gnunet-end				/usr/bin/
-COPY gnunet-user-init		/usr/bin/
 
 RUN \
 	ldconfig && \
@@ -79,8 +78,6 @@ RUN \
     chown ${uid}:${gid} -R /home/user && \
 	gpasswd -a user gnunet && \
 	echo "none\nnone" | passwd user
-
-COPY gnunet-user.conf /home/user/.config/gnunet.conf
 
 #-----------------------------------------------------------
 # Entry point
