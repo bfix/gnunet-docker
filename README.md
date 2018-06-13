@@ -47,7 +47,8 @@ to the correct location (see "Running GNUnet").
 
 ### Running GNUnet in a Docker container
 
-The container is run using the `run_deploy` script:
+The container is run using the `run_deploy` script (that you need to customize
+for the local directories on your host system):
 
     docker run --rm -ti --name gnunet -h gnunet \
         --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --device=/dev/net/tun \

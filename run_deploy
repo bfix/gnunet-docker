@@ -4,9 +4,8 @@ docker run --rm -ti --name gnunet -h gnunet \
 	--cap-add=NET_ADMIN --cap-add=NET_BROADCAST --device=/dev/net/tun \
 	-e DISPLAY=${DISPLAY} \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-v /vault/security/gnunet/dev/user:/home/user \
-	-v /vault/security/gnunet/dev/system:/var/lib/gnunet \
+    -v <local folder 1>:/home/user \
+    -v <local folder 2>:/var/lib/gnunet \
 	-p 0.0.0.0:2086:2086 \
 	-p 0.0.0.0:1080:1080 \
 	bfix/gnunet
-
