@@ -3,25 +3,25 @@ Dockerfiles for building and running GnuNET
 
 There are Dockerfiles to create two GnuNET images:
 
-## "GnuNET build" image (~2.5GB)
+## "GNUnet build" image (~2.5GB)
 
-The "build" image is used to compile GnuNET (core and Gtk) from source code
-that is pulled from the official GnuNET Git repository (https://gnunet.org/git/).
+The "build" image is used to compile GNUnet (core and Gtk) from source code
+that is pulled from the official GNUnet Git repository (https://gnunet.org/git/).
 The compiled binaries (programs and libraries) are packaged into a tar.gz; the
-archive will later be used to install GnuNET into the "run" image.
+archive will later be used to install GNUnet into the "run" image.
 
 The corresponding Dockerfile (`Dockerfile.build`) is compiled into an image
 using the `mk_build` script. The archive with the compiled binaries is put
 into the current directory by the script after the build is complete.
 
-The Dockerfile specifies the Git revision/tag of the GnuNET repository to be
+The Dockerfile specifies the Git revision/tag of the GNUnet repository to be
 build (`ENV GNUNET_VERSION v0.11.0pre66`) and needs be be changed if you want
-to buld a different version of GnuNET. The version must be consistent between
+to buld a different version of GNUnet. The version must be consistent between
 core and Gtk repositories.
 
-## "GnuNET run" image (~400MB)
+## "GNUnet run" image (~400MB)
 
-The "run" image is used to run GnuNET as a Docker container. It installs the
+The "run" image is used to run GNUnet as a Docker container. It installs the
 archive of compiled binaries from the "build" image and installs all
 required runtime dependencies.
 
@@ -42,9 +42,9 @@ system behind a punched NAT.
 #### gnunet-user.conf
 
 This file specifies the user configuration and need to be copied manually
-to the correct location (see "Running GnuNET").
+to the correct location (see "Running GNUnet").
 
-### Running GnuNET in a Docker container
+### Running GNUnet in a Docker container
 
 The container is run using the `run_deploy` script:
 
@@ -59,7 +59,7 @@ The container is run using the `run_deploy` script:
         bfix/gnunet
 
 It maps two local directories into the container, the home directories of the
-user `gnunet` (GnuNET system account) and `user` (GnuNET user account). Make
+user `gnunet` (GNUnet system account) and `user` (GNUnet user account). Make
 sure that your local folders have the following uid/gid assignements:
 
 * `local folder 1`: (uid=1000/gid=1000)
@@ -68,12 +68,12 @@ sure that your local folders have the following uid/gid assignements:
 You should copy the user's `gnunet.conf` to the `.config` directory in
 `local folder 1` before running the container.
 
-When the container is started, a shell is opened for user `user` and no GnuNET
-programs are started. To start GnuNET (system and user part), run the
+When the container is started, a shell is opened for user `user` and no GNUnet
+programs are started. To start GNUnet (system and user part), run the
 `/usr/bin/gnunet-start` script.
 
-You can now run GnuNET programs as you like.
+You can now run GNUnet programs as you like.
 
-To quit the container, stop GnuNET by running the `/usr/bin/gnunet-stop` script
+To quit the container, stop GNUnet by running the `/usr/bin/gnunet-stop` script
 and exit the shell.
 
