@@ -6,7 +6,7 @@ docker run --rm -ti --name gnunet -h gnunet \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v /vault/security/gnunet/dev/user:/home/user \
 	-v /vault/security/gnunet/dev/system:/var/lib/gnunet \
-	-p 127.0.0.1:2086:2086 \
-	-p 127.0.0.1:1080:1080 \
+	-p 0.0.0.0:2086:2086 \
+	-p 0.0.0.0:1080:1080 \
 	bfix/gnunet
 
