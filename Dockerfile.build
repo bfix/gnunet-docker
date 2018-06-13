@@ -59,7 +59,7 @@ ENV GNUNET_VERSION v0.11.0pre66
 RUN \
 	mkdir -p /opt/src && \
 	cd /opt/src && \
-	git clone https://gnunet.org/git/gnunet.git gnunet
+	git clone --depth 1 https://gnunet.org/git/gnunet.git gnunet
 
 #-----------------------------------------------------------
 # Build GNUnet core
@@ -92,7 +92,7 @@ RUN \
 
 RUN \
 	cd /opt/src && \
-	git clone https://gnunet.org/git/gnunet-gtk.git gnunet-gtk
+	git clone --depth 1 https://gnunet.org/git/gnunet-gtk.git gnunet-gtk
 
 #-----------------------------------------------------------
 # Build GNUnet GTK
