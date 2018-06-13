@@ -37,7 +37,8 @@ configuration to your needs:
 
 This file will be copied to `/etc/gnunet.conf` and specifies the system
 configuration. The provided example file is an example of an IPv4-only
-system behind a punched NAT.
+system behind a punched NAT. You will need to replace the line
+`EXTERNAL_ADDRESS = xxx.xxx.xxx.xxx` with your public IPv4 address.
 
 #### gnunet-user.conf
 
