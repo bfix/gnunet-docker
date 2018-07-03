@@ -1,11 +1,18 @@
 #!/bin/bash
 
+export GNUNET_RUNTIME=${1:-/vault/security/gnunet/dev}
+
+if [ ! -d ${GNUNET_RUNTIME}/user -a ! -d ${GNUNET_RUNTIME}/system ]; then
+	echo "No valid runtime directory '${GNUNET_RUNTIME}'..."
+	exit 1
+fi
+
 docker run --rm -ti --name gnunet -h gnunet \
 	--cap-add=NET_ADMIN --cap-add=NET_BROADCAST --device=/dev/net/tun \
 	-e DISPLAY=${DISPLAY} \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v <local folder 1>:/home/user \
-    -v <local folder 2>:/var/lib/gnunet \
+    -v ${GNUNET_RUNTIME}/user:/home/user \
+    -v ${GNUNET_RUNTIME}/system:/var/lib/gnunet \
 	-p 0.0.0.0:2086:2086 \
 	-p 0.0.0.0:1080:1080 \
 	bfix/gnunet
