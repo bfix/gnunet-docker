@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -d $1 ]; then
+	echo "Runtime directory '$1' exists -- aborting!"
+	exit 1
+fi
+
+mkdir -p $1/{user,system}/.config
+
+cp gnunet-user.conf $1/user/.config/gnunet.conf
+sudo chown -R 1000:1000 $1/user
+
+cp gnunet-system.conf $1/system/.config/gnunet.conf
+sudo chown -R 666:666 $1/system
+
