@@ -8,6 +8,10 @@ fi
 mkdir -p $1/{user,system}/.config
 
 cp gnunet-user.conf $1/user/.config/gnunet.conf
+cat > $1/user/.bash_profile <<EOF
+export PATH=/opt/gnunet/bin:\${PATH}
+export NO_AT_BRIDGE=1
+EOF
 sudo chown -R 1000:1000 $1/user
 
 cp gnunet-system.conf $1/system/.config/gnunet.conf
