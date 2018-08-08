@@ -5,7 +5,7 @@ if [ -d $1 ]; then
 	exit 1
 fi
 
-mkdir -p $1/{user,system}/.config
+mkdir -p $1/{user,system,build}/.config
 
 cp gnunet-user.conf $1/user/.config/gnunet.conf
 cat > $1/user/.bash_profile <<EOF
