@@ -1,5 +1,31 @@
 #!/bin/bash
 
-/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -e
-sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -e" gnunet
 
+function stop_sys() {
+	echo -n "Starting GNUnet services (user 'gnunet'): "
+	sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -e" gnunet
+	echo "done."
+}
+
+function stop_usr() {
+	echo -n "Starting GNUnet services (user 'user'): "
+	/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -e
+	echo "done."
+}
+
+case "$1" in
+	sys)
+		stop_sys
+		;;
+	usr)
+		stop_usr
+		;;
+	all)
+		stop_sys
+		stop_usr
+		;;
+	*)
+		echo "Unknown cmd '$1'..."
+		;;
+esac
+exit 0
