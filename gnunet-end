@@ -2,13 +2,13 @@
 
 
 function stop_sys() {
-	echo -n "Starting GNUnet services (user 'gnunet'): "
+	echo -n "Stopping GNUnet services (user 'gnunet'): "
 	sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -e" gnunet
 	echo "done."
 }
 
 function stop_usr() {
-	echo -n "Starting GNUnet services (user 'user'): "
+	echo -n "Stopping GNUnet services (user 'user'): "
 	/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -e
 	echo "done."
 }
@@ -25,7 +25,7 @@ case "$1" in
 		stop_usr
 		;;
 	*)
-		echo "Unknown cmd '$1'..."
+		echo "Unknown cmd '$1'... [sys,usr,all]"
 		;;
 esac
 exit 0

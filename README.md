@@ -106,7 +106,19 @@ related configurations. This is done by running:
 
 #### Using GNUnet
 
+##### Starting GNUnet
+
+    $ gnunet-start [sys|usr|all]
+
+For normal interactive use specify the `all` argument.
+
+##### Running GNUnet programs
+
 You can now run GNUnet programs as you like.
+
+##### Stopping GNUnet
+
+    $ gnunet-end [sys|usr|all]
 
 #### Stopping the container
 

@@ -8,11 +8,14 @@ FROM debian:stretch
 
 MAINTAINER Bernd Fix <brf@hoi-polloi.org>
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV GNUNET_VERSION latest
+ENV GNUNET_PREFIX  /opt/gnunet
 
 #-----------------------------------------------------------
 # Install dependencies.
 #-----------------------------------------------------------
+
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
 	apt-get update && \
@@ -31,6 +34,7 @@ RUN \
 		libgladeui-dev \
 		libglpk-dev \
 		libgtk-3-dev \
+		libjansson-dev \
 		libltdl-dev \	
 		libopus-dev \
 		libogg-dev \
@@ -67,10 +71,6 @@ RUN \
 # GNUnet CORE
 #===========================================================
 
-ENV GNUNET_VERSION latest
-
-ENV GNUNET_PREFIX  /opt/gnunet
-
 #-----------------------------------------------------------
 # Get GNUnet source code (latest revision)
 #-----------------------------------------------------------
@@ -89,7 +89,7 @@ RUN \
 	adduser --system --home /var/lib/gnunet --uid 666 --group --disabled-password gnunet && \
 	addgroup --system --gid 667  gnunetdns && \
 	cd /opt/src/gnunet && \
-	mkdir ${GNUNET_PREFIX} && \
+	mkdir -p ${GNUNET_PREFIX} && \
 	./bootstrap && \
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
