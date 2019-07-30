@@ -1,10 +1,10 @@
 
 ############################################################
 # Dockerfile to build  ">Y< GNUnet" deployment image.
-# Copyright (c) 2014-2018 by Bernd Fix. All rights reserved.
+# Copyright (c) 2014-2019 by Bernd Fix. All rights reserved.
 ############################################################
 
-FROM debian:stretch
+FROM debian:buster
 
 MAINTAINER Bernd Fix <brf@hoi-polloi.org>
 
@@ -23,10 +23,10 @@ RUN \
 		libgladeui-2-6 \
 		libltdl7 \
 		libnss3-tools \
-		libqrencode3 \
+		libqrencode4 \
 		libsqlite3-0 \
-		libunique-3.0-0 \
-		libunistring0 \
+		libunique-1.0-0 \
+		libunistring2 \
 		openssl \
 		procps \
 		sudo \

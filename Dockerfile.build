@@ -1,10 +1,10 @@
 
 ############################################################
 # Dockerfile to build ">Y< GNUnet" compile image.
-# Copyright (c) 2014-2018 by Bernd Fix. All rights reserved.
+# Copyright (c) 2014-2019 by Bernd Fix. All rights reserved.
 ############################################################
 
-FROM debian:stretch
+FROM debian:buster
 
 MAINTAINER Bernd Fix <brf@hoi-polloi.org>
 
