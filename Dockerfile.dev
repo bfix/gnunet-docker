@@ -60,6 +60,7 @@ RUN \
 COPY gnunet-ldconfig.conf /etc/ld.so.conf.d/gnunet.conf
 COPY gnunet-start         /usr/bin/
 COPY gnunet-end	          /usr/bin/
+COPY build-all.sh         /usr/bin/
 
 RUN \
 	ldconfig && \
