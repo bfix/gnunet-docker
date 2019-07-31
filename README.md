@@ -3,7 +3,7 @@ Dockerfiles for building and running [GNUnet](https://gnunet.org/).
 
 There are three Dockerfiles to create GNUnet images:
 
-## "GNUnet build" image (~2.5GB)
+## "GNUnet build" image (~1.6GB)
 
 The "build" image is used to compile GNUnet (core and Gtk) from source code
 that is pulled from the official GNUnet Git repository (https://gnunet.org/git/).
@@ -15,7 +15,7 @@ using the `mk_build` script. The archive `gnunet-bin.tar.gz` with the compiled
 binaries is put into the current directory after the build is complete.
 
 The Dockerfile specifies the Git revision/tag of the GNUnet repository to be
-build (`ENV GNUNET_VERSION v0.11.0pre66`) and needs be be changed if you want
+build (`ENV GNUNET_VERSION v0.11.0`) and needs be be changed if you want
 to build a different version of GNUnet. Use `ENV GNUNET_VERSION latest` to
 build the latest version of GNUnet. The specified version must be consistent
 between core and Gtk repositories.
@@ -25,7 +25,10 @@ build the image. The easiest way is to remove the old image `bfix/gnunet-build`
 and run the `mk_build` script again. This way also newer Debian packages are
 installed.
 
-## "GNUnet run" image (~400MB)
+Once the GNUnet binaries are build and exported to `gnunet-bin.tar.gz`, the
+build image is no longer required.
+
+## "GNUnet run" image (~715MB)
 
 The "run" image is used to run GNUnet as a Docker container. It installs the
 archive of compiled binaries from the "build" image and installs all
@@ -43,7 +46,9 @@ GNUnet sessions (running/terminating the Docker image).
 
 To initialize the runtime directory run:
 
-    $ ./init_deploy ${GNUNET_RUNTIME}
+```bash
+$ ./init_deploy ${GNUNET_RUNTIME}
+```
 
 and set `${GNUNET_RUNTIME}` to a directory of your choice. Please note that you
 need `sudo` privileges to successfully run the script.
@@ -74,15 +79,17 @@ is not `1000`.
 The container is run using the `run_deploy` script (that you need to customize
 for the local directories on your host system):
 
-    docker run --rm -ti --name gnunet -h gnunet \
-        --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --device=/dev/net/tun \
-        -e DISPLAY=${DISPLAY} \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -v ${GNUNET_RUNTIME}/user:/home/user \
-        -v ${GNUNET_RUNTIME}/system:/var/lib/gnunet \
-        -p 0.0.0.0:2086:2086 \
-        -p 0.0.0.0:1080:1080 \
-        bfix/gnunet
+```bash
+docker run --rm -ti --name gnunet -h gnunet \
+    --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --device=/dev/net/tun \
+    -e DISPLAY=${DISPLAY} \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ${GNUNET_RUNTIME}/user:/home/user \
+    -v ${GNUNET_RUNTIME}/system:/var/lib/gnunet \
+    -p 0.0.0.0:2086:2086 \
+    -p 0.0.0.0:1080:1080 \
+    bfix/gnunet
+```
 
 It maps to the two folders in `${GNUNET_RUNTIME}`: the home directories for the
 user `gnunet` (GNUnet system account) and `user` (GNUnet user account). If you
@@ -94,21 +101,20 @@ script), make sure that your folders have the following uid/gid assignments:
 
 When the container is run, a shell is opened for user `user` and no GNUnet
 programs are started. To start GNUnet (system and user part), run the
-`/usr/bin/gnunet-start` script.
+`/usr/bin/gnunet-start` script with an appropriate argument.
 
 #### First time setup
 
-After starting GNUnet you should initialize some `GNU Name Service` (GNS)-
-related configurations. This is done by running:
-
-    $ gnunet-gns-import.sh
-    $ gnunet-gns-proxy-setup-ca
+Please follow the instruction on the GNUnet website (https://gnunet.org/) to
+setup and customize your GNUnet instance.
 
 #### Using GNUnet
 
 ##### Starting GNUnet
 
-    $ gnunet-start [sys|usr|all]
+```bash
+$ gnunet-start [sys|usr|all]
+```
 
 For normal interactive use specify the `all` argument.
 
@@ -118,7 +124,9 @@ You can now run GNUnet programs as you like.
 
 ##### Stopping GNUnet
 
-    $ gnunet-end [sys|usr|all]
+```bash
+$ gnunet-end [sys|usr|all]
+```
 
 #### Stopping the container
 
@@ -128,7 +136,7 @@ and exit the shell.
 The container used to run the GNUnet image is automatically removed (if you
 use the `--rm` option when running the image).
 
-## "GNUnet dev" image (~1GB)
+## "GNUnet dev" image (~1.3GB)
 
 This Docker image can be used to compile and run GNUnet in a development
 environment. The corresponding Dockerfile (`Dockerfile.dev`) is compiled into
@@ -140,8 +148,10 @@ The container is run using the `run_dev` script (that you need to customize
 for the local directories on your host system). The directories are
 specified at the beginning of the script:
 
-    export GNUNET_RUNTIME=${1:-/vault/security/gnunet/dev}
-    export GNUNET_SOURCE=${2:-/vault/prj/security/gnunet}
+```bash
+export GNUNET_RUNTIME=${1:-/usr/local/gnunet/rt}
+export GNUNET_SOURCE=${2:-/usr/local/gnunet/src}
+```
 
 The first directory `GNUNET_RUNTIME` maps three subfolders into the container:
 the home directories for the user `gnunet` (GNUnet system account); `user`
