@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export GNUNET_RUNTIME=${1:-/vault/security/gnunet/rt}
+export GNUNET_RUNTIME=${1:-/usr/local/gnunet/rt}
 
 if [ ! -d ${GNUNET_RUNTIME}/user -a ! -d ${GNUNET_RUNTIME}/system ]; then
 	echo "No valid runtime directory '${GNUNET_RUNTIME}'..."

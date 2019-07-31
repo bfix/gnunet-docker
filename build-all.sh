@@ -2,12 +2,14 @@
 
 export GNUNET_PREFIX=/opt/gnunet
 
+echo "*** Building 'libmicrohttpd'"
 cd /opt/src/libmicrohttpd
 ./bootstrap
 ./configure --prefix=${GNUNET_PREFIX}
 make
 make install
 
+echo "*** Building 'gnunet'"
 cd /opt/src/gnunet
 mkdir -p ${GNUNET_PREFIX}
 ./bootstrap
@@ -19,7 +21,7 @@ mkdir -p ${GNUNET_PREFIX}
 make
 make install
 
-
+echo "*** Building 'gnunet-gtk'"
 cd /opt/src/gnunet-gtk
 ./bootstrap
 ./configure \

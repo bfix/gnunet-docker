@@ -22,6 +22,7 @@ RUN \
 		autopoint \
 		build-essential \
 		ca-certificates \
+		gettext \
 		git \
 		gnutls-bin \
 		libextractor-dev \
@@ -31,6 +32,7 @@ RUN \
 		libgladeui-dev \
 		libglpk-dev \
 		libgtk-3-dev \
+		libjansson-dev \
 		libltdl-dev \	
 		libopus-dev \
 		libogg-dev \
