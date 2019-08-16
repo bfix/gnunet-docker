@@ -21,8 +21,8 @@ case "$1" in
 		stop_usr
 		;;
 	all)
-		stop_sys
 		stop_usr
+        stop_sys
 		;;
 	*)
 		echo "Unknown cmd '$1'... [sys,usr,all]"
