@@ -2,13 +2,13 @@
 
 function run_sys() {
 	echo -n "Starting GNUnet services (user 'gnunet'): "
-	sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -s" gnunet 2> /home/user/system.log
+	sudo su -s /bin/bash -c "/opt/gnunet/bin/gnunet-arm -c /etc/gnunet.conf -s" gnunet
 	echo "done."
 }
 
 function run_usr() {
 	echo -n "Starting GNUnet services (user 'user'): "
-	/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -s 2> /home/user/user.log
+	/opt/gnunet/bin/gnunet-arm -c /home/user/.config/gnunet.conf -s
 	echo "done."
 }
 

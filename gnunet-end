@@ -22,7 +22,7 @@ case "$1" in
 		;;
 	all)
 		stop_usr
-        stop_sys
+		stop_sys
 		;;
 	*)
 		echo "Unknown cmd '$1'... [sys,usr,all]"
