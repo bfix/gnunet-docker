@@ -29,6 +29,7 @@ RUN \
 		libunistring2 \
 		openssl \
 		procps \
+		screen \
 		sudo \
 		vim \
 		&& \

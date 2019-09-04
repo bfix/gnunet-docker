@@ -46,6 +46,7 @@ RUN \
 		openssl \
 		procps \
 		python-zbar \
+		screen \
 		sudo \
 		texinfo \
 		vim \
