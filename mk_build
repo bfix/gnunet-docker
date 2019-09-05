@@ -8,4 +8,5 @@ function getfile() {
 
 docker build -f Dockerfile.build -t bfix/gnunet-build .
 getfile bfix/gnunet-build:latest /opt/gnunet-bin.tar.gz .
+docker rmi bfix/gnunet-build
 

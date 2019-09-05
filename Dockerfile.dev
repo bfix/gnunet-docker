@@ -16,10 +16,12 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
 	apt-get update && \
+	apt-get -y upgrade && \
 	apt-get -y install --no-install-recommends \
 		autoconf \
 		automake \
 		autopoint \
+		bluetooth \
 		build-essential \
 		ca-certificates \
 		gettext \
@@ -36,12 +38,15 @@ RUN \
 		libltdl-dev \	
 		libopus-dev \
 		libogg-dev \
+		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
 		libsqlite3-dev \
 		libtool \
 		libunique-dev \
 		libunistring-dev \
+		libzbar-dev \
+		miniupnpc \
 		openssh-client \
 		openssl \
 		procps \

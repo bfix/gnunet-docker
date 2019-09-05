@@ -19,10 +19,12 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
 	apt-get update && \
+	apt-get -y upgrade && \
 	apt-get -y install --no-install-recommends \
 		autoconf \
 		automake \
 		autopoint \
+		bluetooth \
 		build-essential \
 		ca-certificates \
 		git \
@@ -38,12 +40,15 @@ RUN \
 		libltdl-dev \	
 		libopus-dev \
 		libogg-dev \
+		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
 		libsqlite3-dev \
 		libtool \
 		libunique-dev \
 		libunistring-dev \
+		libzbar-dev \
+		miniupnpc \
 		openssl \
 		python-zbar \
 		texinfo \
@@ -53,6 +58,30 @@ RUN \
 	apt-get -y autoremove --purge && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+
+#-----------------------------------------------------------
+# Install latest gnurl
+#-----------------------------------------------------------
+
+RUN \
+	mkdir -p /opt/src && \
+	cd /opt/src && \
+	git clone https://git.taler.net/gnurl.git gnurl && \
+	cd /opt/src/gnurl && \
+	./buildconf && \
+	./configure \
+		--enable-ipv6 --with-gnutls --without-libssh2 --without-libpsl \
+		--without-libmetalink --without-winidn --without-librtmp \
+		--without-nghttp2 --without-nss --without-cyassl \
+		--without-polarssl --without-ssl --without-winssl \
+		--without-darwinssl --disable-sspi --disable-ntlm-wb --disable-ldap \
+		--disable-rtsp --disable-dict --disable-telnet --disable-tftp \
+		--disable-pop3 --disable-imap --disable-smtp --disable-gopher \
+		--disable-file --disable-ftp --disable-smb --disable-ares \
+		--prefix=${GNUNET_PREFIX} && \
+	make && \
+	make install
+
 #-----------------------------------------------------------
 # Install latest libmicrohttpd
 #-----------------------------------------------------------
@@ -60,7 +89,7 @@ RUN \
 RUN \
 	mkdir -p /opt/src && \
 	cd /opt/src && \
-	git clone https://gnunet.org/git/libmicrohttpd.git libmicrohttpd && \
+	git clone https://git.gnunet.org/libmicrohttpd.git libmicrohttpd && \
 	cd /opt/src/libmicrohttpd && \
 	./bootstrap && \
 	./configure --prefix=${GNUNET_PREFIX} && \
@@ -78,7 +107,7 @@ RUN \
 RUN \
 	mkdir -p /opt/src && \
 	cd /opt/src && \
-	git clone https://gnunet.org/git/gnunet.git gnunet && \
+	git clone https://git.gnunet.org/gnunet.git gnunet && \
 	[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
 
 #-----------------------------------------------------------
@@ -96,6 +125,7 @@ RUN \
 		--enable-logging=verbose \
 		--with-sudo=sudo \
 		--with-microhttpd=${GNUNET_PREFIX} \
+		--with-libgnurl=${GNUNET_PREFIX} \
 		&& \
 	make && \
 	make install
@@ -110,7 +140,7 @@ RUN \
 
 RUN \
 	cd /opt/src && \
-	git clone https://gnunet.org/git/gnunet-gtk.git gnunet-gtk && \
+	git clone https://git.gnunet.org/gnunet-gtk.git gnunet-gtk && \
 	[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
 
 #-----------------------------------------------------------

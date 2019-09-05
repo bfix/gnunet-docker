@@ -21,12 +21,11 @@ build the latest version of GNUnet. The specified version must be consistent
 between core and Gtk repositories.
 
 If the GNUnet repositories change after the initial build, you need to re-
-build the image. The easiest way is to remove the old image `bfix/gnunet-build`
-and run the `mk_build` script again. This way also newer Debian packages are
-installed.
+build the image. Just run the `mk_build` script again. This way also newer
+Debian packages are installed.
 
 Once the GNUnet binaries are build and exported to `gnunet-bin.tar.gz`, the
-build image is no longer required.
+build image is no longer required and is automatically removed.
 
 ## "GNUnet run" image (~715MB)
 
