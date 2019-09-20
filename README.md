@@ -167,3 +167,6 @@ directories (especially `libmicrohttpd`, `gnunet` and `gnunet-gtk`) into the
 container at run-time. Make sure that your source directories are owned
 by user id '1000' with group id '1000'.
 
+If the container is started (it opens a bash shell), you need to run
+`sudo /sbin/ldconfig` first before trying to start GNUnet. This is mandatory
+for every start of the container.
