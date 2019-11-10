@@ -54,7 +54,9 @@ RUN \
 		screen \
 		sudo \
 		texinfo \
+		uncrustify \
 		vim \
+		yapf \
 		zlib1g-dev \
 		&& \
 	apt-get clean all && \
