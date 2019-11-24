@@ -24,6 +24,7 @@ RUN \
 		bluetooth \
 		build-essential \
 		ca-certificates \
+		gdb \
 		gettext \
 		git \
 		gnutls-bin \
