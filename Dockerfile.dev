@@ -1,6 +1,7 @@
 
 ############################################################
 # Dockerfile to build ">Y< GNUnet" development image.
+# Distributed under the GNU Affero General Public License.
 # Copyright (c) 2014-2019 by Bernd Fix. All rights reserved.
 ############################################################
 
@@ -17,7 +18,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN \
 	apt-get update && \
 	apt-get -y upgrade && \
-	apt-get -y install --no-install-recommends \
+	apt-get -y install \
 		autoconf \
 		automake \
 		autopoint \
@@ -47,6 +48,7 @@ RUN \
 		libunique-dev \
 		libunistring-dev \
 		libzbar-dev \
+		man \
 		miniupnpc \
 		openssh-client \
 		openssl \
@@ -110,4 +112,3 @@ CMD ["/bin/bash", "-l"]
 
 EXPOSE 1080 2086
 
-	
