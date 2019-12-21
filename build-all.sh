@@ -4,6 +4,9 @@
 # Build GNUnet binaries and libraries.
 ########################################################################
 
+export GNURL_VERSION=gnurl-7.67.0
+export MHTTP_VERSION=latest
+export GNUNET_VERSION=latest
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
@@ -20,6 +23,7 @@ fi
 
 echo "*** Building 'gnurl'"
 cd /opt/src/gnurl
+[ ${GNURL_VERSION} = "latest" ] || git checkout ${GNURL_VERSION}
 ./buildconf > ${BUILD_LOG}
 ./configure \
 	--enable-ipv6 --with-gnutls --without-libssh2 \
@@ -36,6 +40,7 @@ make install > ${BUILD_LOG}
 
 echo "*** Building 'libmicrohttpd'"
 cd /opt/src/libmicrohttpd
+[ ${MHTTP_VERSION} = "latest" ] || git checkout ${MHTTP_VERSION}
 ./bootstrap > ${BUILD_LOG}
 ./configure --prefix=${GNUNET_PREFIX} > ${BUILD_LOG}
 make > ${BUILD_LOG}
@@ -44,6 +49,7 @@ make install > ${BUILD_LOG}
 echo "*** Building 'gnunet'"
 cd /opt/src/gnunet
 mkdir -p ${GNUNET_PREFIX}
+[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
 ./bootstrap > ${BUILD_LOG}
 ./configure \
 	--prefix=${GNUNET_PREFIX} \
@@ -57,6 +63,7 @@ make install > ${BUILD_LOG}
 
 echo "*** Building 'gnunet-gtk'"
 cd /opt/src/gnunet-gtk
+[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
 ./bootstrap > ${BUILD_LOG}
 ./configure \
 	--prefix=${GNUNET_PREFIX} \
