@@ -2,7 +2,7 @@
 ############################################################
 # Dockerfile to build  ">Y< GNUnet" deployment image.
 # Distributed under the GNU Affero General Public License.
-# Copyright (c) 2014-2019 by Bernd Fix. All rights reserved.
+# Copyright (c) 2014-2020 by Bernd Fix. All rights reserved.
 ############################################################
 
 FROM debian:buster
@@ -22,6 +22,7 @@ RUN \
 		libatomic1 \
 		libextractor3 \
 		libgladeui-2-6 \
+		libidn2-0 \
 		libltdl7 \
 		libnss3-tools \
 		libqrencode4 \
