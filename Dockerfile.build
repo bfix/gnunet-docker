@@ -34,6 +34,7 @@ RUN \
 		ca-certificates \
 		git \
 		gnutls-bin \
+		iptables \
 		libextractor-dev \
 		libidn11-dev \
 		libgcrypt-dev \
@@ -55,6 +56,7 @@ RUN \
 		libunistring-dev \
 		libzbar-dev \
 		miniupnpc \
+		net-tools \
 		openssl \
 		python-zbar \
 		texinfo \
