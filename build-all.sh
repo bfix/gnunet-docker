@@ -4,9 +4,10 @@
 # Build GNUnet binaries and libraries.
 ########################################################################
 
-export GNURL_VERSION=gnurl-7.67.0
-export MHTTP_VERSION=latest
-export GNUNET_VERSION=latest
+export GNURL_VERSION=gnurl-7.69.1
+export MHTTP_VERSION=v0.9.70
+export GNUNET_VERSION=v0.12.2
+export GNUNET_GTK_VERSION=v0.12.0
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
@@ -63,7 +64,7 @@ make install > ${BUILD_LOG}
 
 echo "*** Building 'gnunet-gtk'"
 cd /opt/src/gnunet-gtk
-[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
+[ ${GNUNET_GTK_VERSION} = "latest" ] || git checkout ${GNUNET_GTK_VERSION}
 ./bootstrap > ${BUILD_LOG}
 ./configure \
 	--prefix=${GNUNET_PREFIX} \

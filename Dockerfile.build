@@ -9,9 +9,10 @@ FROM debian:buster
 
 MAINTAINER Bernd Fix <brf@hoi-polloi.org>
 
-ENV GNUNET_VERSION latest
-ENV GNURL_VERSION gnurl-7.67.0
-ENV MHTTP_VERSION latest
+ENV GNURL_VERSION gnurl-7.69.1
+ENV MHTTP_VERSION v0.9.70
+ENV GNUNET_VERSION v0.12.2
+ENV GNUNET_GTK_VERSION v0.12.0
 
 ENV GNUNET_PREFIX  /opt/gnunet
 
@@ -50,6 +51,7 @@ RUN \
 		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
+		libsodium-dev \
 		libsqlite3-dev \
 		libtool \
 		libunique-dev \
@@ -119,6 +121,7 @@ RUN \
 	mkdir -p /opt/src && \
 	cd /opt/src && \
 	git clone https://git.gnunet.org/gnunet.git gnunet && \
+	cd gnunet && \
 	[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
 
 #-----------------------------------------------------------
@@ -152,7 +155,8 @@ RUN \
 RUN \
 	cd /opt/src && \
 	git clone https://git.gnunet.org/gnunet-gtk.git gnunet-gtk && \
-	[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
+	cd gnunet-gtk && \
+	[ ${GNUNET_GTK_VERSION} = "latest" ] || git checkout ${GNUNET_GTK_VERSION}
 
 #-----------------------------------------------------------
 # Build GNUnet GTK
