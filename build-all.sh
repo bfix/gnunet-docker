@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This file is part of gnunet-docker.
-# Copyright (C) 2019, 2020 Bernd Fix  >Y<
+# Copyright (C) 2019 - 2021 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -22,10 +22,10 @@
 # Build GNUnet binaries and libraries.
 ########################################################################
 
-export GNURL_VERSION=gnurl-7.69.1
-export MHTTP_VERSION=v0.9.70
-export GNUNET_VERSION=v0.12.2
-export GNUNET_GTK_VERSION=v0.12.0
+export GNURL_VERSION=gnurl-7.72.0
+export MHTTP_VERSION=v0.9.72
+export GNUNET_VERSION=v0.14.0
+export GNUNET_GTK_VERSION=v0.14.0
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
