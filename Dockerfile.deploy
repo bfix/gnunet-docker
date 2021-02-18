@@ -3,7 +3,7 @@
 # Dockerfile to build  ">Y< GNUnet" deployment image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019, 2020 Bernd Fix  >Y<
+# Copyright (C) 2019-2021 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -23,7 +23,7 @@
 
 FROM debian:buster
 
-MAINTAINER Bernd Fix <brf@hoi-polloi.org>
+LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
