@@ -21,7 +21,7 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 ############################################################
 
-FROM debian:buster
+FROM debian:bullseye
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
@@ -37,13 +37,12 @@ RUN \
 		gnutls-bin \
 		libatomic1 \
 		libextractor3 \
-		libgladeui-2-6 \
+		libgladeui-2-13 \
 		libidn2-0 \
 		libltdl7 \
 		libnss3-tools \
 		libqrencode4 \
 		libsqlite3-0 \
-		libunique-1.0-0 \
 		libunistring2 \
 		openssl \
 		procps \

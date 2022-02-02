@@ -21,7 +21,7 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 ############################################################
 
-FROM debian:buster
+FROM debian:bullseye
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
@@ -63,7 +63,6 @@ RUN \
 		libqrencode-dev \
 		libsqlite3-dev \
 		libtool \
-		libunique-dev \
 		libunistring-dev \
 		libzbar-dev \
 		man \
@@ -72,14 +71,14 @@ RUN \
 		openssh-client \
 		openssl \
 		procps \
-		python-zbar \
+		python3-zbar \
 		screen \
 		sudo \
 		texinfo \
 		texi2html \
 		uncrustify \
 		vim \
-		yapf \
+		yapf3 \
 		zlib1g-dev \
 		&& \
 	apt-get clean all && \
