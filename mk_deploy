@@ -18,5 +18,5 @@
 #
 # SPDX-License-Identifier: AGPL3.0-or-later
 
-docker build -f Dockerfile.deploy -t bfix/gnunet .
+docker build -f Dockerfile -t bfix/gnunet .
 

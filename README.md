@@ -18,16 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SPDX-License-Identifier: AGPL3.0-or-later
 
-## "GNUnet build" image (~1.6GB)
+## "GNUnet deploy" image (~800MB)
 
-The "build" image is used to compile GNUnet (core and Gtk) from source code
+The deploy image is build in a multi-stage build from `Dockerfile`:
+
+The "builder" stage is used to compile GNUnet (core and Gtk) from source code
 that is pulled from the official GNUnet Git repository (https://gnunet.org/git/).
 The compiled binaries (programs and libraries) are packaged into a tar.gz; the
-archive will later be used to install GNUnet into the "run" image.
-
-The corresponding Dockerfile (`Dockerfile.build`) is compiled into an image
-using the `mk_build` script. The archive `gnunet-bin.tar.gz` with the compiled
-binaries is put into the current directory after the build is complete.
+archive will later be used to install GNUnet into the deployment image.
 
 The Dockerfile specifies the Git revision/tag of the GNUnet repository to be
 build (`ENV GNUNET_VERSION v0.11.0`) and needs be be changed if you want
@@ -36,24 +34,19 @@ build the latest version of GNUnet. The specified version must be consistent
 between core and Gtk repositories.
 
 If the GNUnet repositories change after the initial build, you need to re-
-build the image. Just run the `mk_build` script again. This way also newer
+build the image. Just run the `mk_deploy` script again. This way also newer
 Debian packages are installed.
 
-Once the GNUnet binaries are build and exported to `gnunet-bin.tar.gz`, the
-build image is no longer required and is automatically removed.
-
-## "GNUnet run" image (~715MB)
-
-The "run" image is used to run GNUnet as a Docker container. It installs the
-archive of compiled binaries from the "build" image and installs all
+The "deploy" stage is used to run GNUnet as a Docker container. It installs the
+archive of compiled binaries from the "builder" stage and installs all
 required runtime dependencies.
 
-The corresponding Dockerfile (`Dockerfile.deploy`) is compiled into an image
-using the `mk_deploy` script.
+The Dockerfile (`Dockerfile`) is compiled into an image using the `mk_deploy`
+script.
 
 ### Initial setup
 
-Before running the `run image`, you need to setup the runtime environment for
+Before running the `deploy image`, you need to setup the runtime environment for
 GNUnet. This runtime is a directory stored outside of the Docker container on
 the host file-system. This way configuration changes are persistent between
 GNUnet sessions (running/terminating the Docker image).

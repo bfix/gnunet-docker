@@ -1,6 +1,6 @@
 
 ############################################################
-# Dockerfile to build ">Y< GNUnet" compile image.
+# Dockerfile to build ">Y< GNUnet" compile & deploy image.
 #
 # This file is part of gnunet-docker.
 # Copyright (C) 2019-2022 Bernd Fix  >Y<
@@ -21,13 +21,13 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 ############################################################
 
-FROM debian:bullseye
+FROM debian:bullseye AS builder
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
 ENV GNURL_VERSION gnurl-7.72.0
 ENV MHTTP_VERSION v0.9.73
-ENV GNUNET_VERSION v0.15.3
+ENV GNUNET_VERSION v0.16.3
 ENV GNUNET_GTK_VERSION v0.15.0
 
 ENV GNUNET_PREFIX  /opt/gnunet
@@ -67,6 +67,7 @@ RUN \
 		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
+		librec-dev \
 		libsodium-dev \
 		libsqlite3-dev \
 		libtool \
@@ -76,6 +77,7 @@ RUN \
 		net-tools \
 		openssl \
 		python3-zbar \
+		recutils \
 		texinfo \
 		texi2html \
 		zlib1g-dev \
@@ -187,10 +189,100 @@ RUN \
 	make && \
 	make install
 
-#===========================================================
+#-----------------------------------------------------------
 # Package binaries.
-#===========================================================
+#-----------------------------------------------------------
 
 RUN \
 	tar cvzf /opt/gnunet-bin.tar.gz -C ${GNUNET_PREFIX} .
 
+
+#===========================================================
+# Deployment image
+#===========================================================
+
+FROM debian:bullseye
+
+LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+#-----------------------------------------------------------
+# Install dependencies.
+#-----------------------------------------------------------
+
+RUN \
+	apt-get update && \
+	apt-get install -y --no-install-recommends \
+		gnutls-bin \
+		libatomic1 \
+		libextractor3 \
+		libgladeui-2-13 \
+		libidn2-0 \
+		libltdl7 \
+		libnss3-tools \
+		libqrencode4 \
+		libsqlite3-0 \
+		libunistring2 \
+		openssl \
+		procps \
+		screen \
+		sudo \
+		vim \
+		&& \
+	apt-get clean all && \
+	apt-get -y autoremove --purge && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+#-----------------------------------------------------------
+# Install application binaries (apps and libs).
+#-----------------------------------------------------------
+
+COPY --from=builder /opt/gnunet-bin.tar.gz /root
+
+RUN \
+	mkdir -p /opt/gnunet && \
+	tar xvzf /root/gnunet-bin.tar.gz -C /opt/gnunet && \
+	rm -f /root/gnunet-bin.tar.gz
+
+#-----------------------------------------------------------
+# Prepare runtime environment.
+#-----------------------------------------------------------
+
+COPY gnunet-ldconfig.conf /etc/ld.so.conf.d/gnunet.conf
+COPY gnunet-start         /usr/bin/
+COPY gnunet-end	          /usr/bin/
+
+RUN \
+	ldconfig && \
+	adduser --system --home /var/lib/gnunet --uid 666 --group --disabled-password gnunet && \
+	addgroup --system --gid 667 gnunetdns && \
+	mkdir -p /var/lib/gnunet/.config/gnunet && \
+	ln -s /var/lib/gnunet/.config/gnunet.conf /etc/gnunet.conf && \
+	sed -i -e "s/^hosts:\([[:space:]]*\).*$/hosts:\1files gns [NOTFOUND=return] dns/" /etc/nsswitch.conf
+
+#-----------------------------------------------------------
+# Setup application user.
+#-----------------------------------------------------------
+
+RUN \
+	export uid=1000 gid=1000 && \
+	mkdir -p /home/user && \
+	echo "user:x:${uid}:${gid}:User,,,:/home/user:/bin/bash" >> /etc/passwd && \
+	echo "user:x:${uid}:" >> /etc/group && \
+	echo "user ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/user && \
+	chmod 0440 /etc/sudoers.d/user && \
+	echo "export PATH=/opt/gnunet/bin:\$PATH" > /home/user/.bash_profile && \
+	chown ${uid}:${gid} -R /home/user && \
+	gpasswd -a user gnunet && \
+	echo "neednone\nneednone" | passwd user
+
+#-----------------------------------------------------------
+# Entry point
+#-----------------------------------------------------------
+
+USER user
+ENV HOME /home/user
+CMD ["/bin/bash", "-l"]
+
+EXPOSE 1080 2086
