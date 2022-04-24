@@ -1,0 +1,32 @@
+[
+	{
+		"name": "bfix/gnunet:latest",
+		"deps": "debian:bullseye",
+		"files": [
+			"Dockerfile",
+			"build-all.sh",
+			"gnunet-end",
+			"gnunet-start",
+			"gnunet-ldconfig.conf",
+			"gnunet-system.conf",
+			"gnunet-user.conf",
+			"run-client"
+		],
+		"build": "./mk_deploy"
+	},
+	{
+		"name": "bfix/gnunet:dev",
+		"deps": "debian:bullseye",
+		"files": [
+			"Dockerfile.dev",
+			"build-all.sh",
+			"gnunet-end",
+			"gnunet-start",
+			"gnunet-ldconfig.conf",
+			"gnunet-system.conf",
+			"gnunet-user.conf",
+			"run-client"
+		],
+		"build": "./mk_dev"
+	}
+]
