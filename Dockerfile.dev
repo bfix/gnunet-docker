@@ -71,6 +71,7 @@ RUN \
 		net-tools \
 		openssh-client \
 		openssl \
+		parallel \
 		procps \
 		python3-zbar \
 		recutils \
@@ -131,5 +132,6 @@ ENV HOME          /home/user
 ENV GNUNET_PREFIX /opt/gnunet
 CMD ["/bin/bash", "-l"]
 
-EXPOSE 1080 2086
+# expose standard and testing ports
+EXPOSE 1080 2086 10000-10999
 
