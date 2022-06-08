@@ -3,7 +3,7 @@
 # Dockerfile to build ">Y< GNUnet" development image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019-2021 Bernd Fix  >Y<
+# Copyright (C) 2019-2022 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -61,6 +61,7 @@ RUN \
 		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
+		libsodium-dev \
 		libsqlite3-dev \
 		libtool \
 		libunistring-dev \
@@ -72,6 +73,7 @@ RUN \
 		openssl \
 		procps \
 		python3-zbar \
+		recutils \
 		screen \
 		sudo \
 		texinfo \
