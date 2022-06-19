@@ -24,7 +24,7 @@
 
 export GNURL_VERSION=gnurl-7.72.0
 export MHTTP_VERSION=v0.9.73
-export GNUNET_VERSION=v0.17.0
+export GNUNET_VERSION=master
 export GNUNET_GTK_VERSION=v0.15.0
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
@@ -51,8 +51,10 @@ if [ "$1" == "sync" ]; then
 		cd /opt/src/${pkg}
 		echo ">>>     * ${pkg}"
 		git remote update
-		git rev-parse ${VERSION[${pkg}]}
-		if [ $? -eq 128 ]; then
+		local=$(git rev-parse @)
+		remote=$(git rev-parse '@{u}')
+		base=$(git merge-base @ '@{u}')
+		if [ "${local}" != "${remote}" -a "${local}" = "${base}" ]; then
 			echo "Pulling updates..."
 			git reset --hard
 			git pull
@@ -61,11 +63,13 @@ if [ "$1" == "sync" ]; then
 	done
 fi
 
+rm -f ${BUILD_LOG}
+
 echo "*** Building 'gnurl'"
 cd /opt/src/gnurl
 if [ ${SYNC["gnurl"]} -eq 1 ]; then
 	git checkout ${GNURL_VERSION}
-	./buildconf > ${BUILD_LOG}
+	./buildconf >> ${BUILD_LOG}
 	./configure \
 		--enable-ipv6 --with-gnutls --without-libssh2 \
 		--without-libmetalink --without-winidn --without-librtmp \
@@ -75,47 +79,47 @@ if [ ${SYNC["gnurl"]} -eq 1 ]; then
 		--disable-rtsp --disable-dict --disable-telnet --disable-tftp \
 		--disable-pop3 --disable-imap --disable-smtp --disable-gopher \
 		--disable-file --disable-ftp --disable-smb --disable-ntlm-wb \
-		--prefix=${GNUNET_PREFIX}  > ${BUILD_LOG}
+		--prefix=${GNUNET_PREFIX} \
+		>> ${BUILD_LOG}
 fi
-make > ${BUILD_LOG}
-make install > ${BUILD_LOG}
+make >> ${BUILD_LOG}
+make install >> ${BUILD_LOG}
 
 echo "*** Building 'libmicrohttpd'"
 cd /opt/src/libmicrohttpd
 if [ ${SYNC["libmicrohttpd"]} -eq 1 ]; then
 	git checkout ${MHTTP_VERSION}
 	./bootstrap > ${BUILD_LOG}
-	./configure --prefix=${GNUNET_PREFIX} > ${BUILD_LOG}
+	./configure --prefix=${GNUNET_PREFIX} >> ${BUILD_LOG}
 fi
-make > ${BUILD_LOG}
-make install > ${BUILD_LOG}
+make >> ${BUILD_LOG}
+make install >> ${BUILD_LOG}
 
 echo "*** Building 'gnunet'"
 cd /opt/src/gnunet
 mkdir -p ${GNUNET_PREFIX}
 if [ ${SYNC["gnunet"]} -eq 1 ]; then
 	git checkout ${GNUNET_VERSION}
-	./bootstrap > ${BUILD_LOG}
+	./bootstrap >> ${BUILD_LOG}
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
 		--enable-logging=verbose \
-		--with-sudo=sudo \
 		--with-microhttpd=${GNUNET_PREFIX} \
 		--with-libgnurl=${GNUNET_PREFIX} \
-		> ${BUILD_LOG}
+		>> ${BUILD_LOG}
 fi
-make > ${BUILD_LOG}
-make install > ${BUILD_LOG}
+make >> ${BUILD_LOG}
+make install >> ${BUILD_LOG}
 
 echo "*** Building 'gnunet-gtk'"
 cd /opt/src/gnunet-gtk
 if [ ${SYNC["gnunet-gtk"]} -eq 1 ]; then
 	git checkout ${GNUNET_GTK_VERSION}
-	./bootstrap > ${BUILD_LOG}
+	./bootstrap >> ${BUILD_LOG}
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
 		--with-gnunet=${GNUNET_PREFIX} \
-		> ${BUILD_LOG}
+		>> ${BUILD_LOG}
 fi
-make > ${BUILD_LOG}
-make install > ${BUILD_LOG}
+make >> ${BUILD_LOG}
+make install >> ${BUILD_LOG}
