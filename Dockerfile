@@ -27,7 +27,7 @@ LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
 ENV GNURL_VERSION gnurl-7.72.0
 ENV MHTTP_VERSION v0.9.73
-ENV GNUNET_VERSION v0.17.0
+ENV GNUNET_VERSION v0.17.1
 ENV GNUNET_GTK_VERSION v0.15.0
 
 ENV GNUNET_PREFIX  /opt/gnunet
@@ -61,7 +61,8 @@ RUN \
 		libgtk-3-dev \
 		libidn2-dev \
 		libjansson-dev \
-		libltdl-dev \	
+		libjose-dev \
+		libltdl-dev \
 		libopus-dev \
 		libogg-dev \
 		libpq-dev \
@@ -96,7 +97,7 @@ RUN \
 	cd /opt/src && \
 	git clone https://git.taler.net/gnurl.git gnurl && \
 	cd /opt/src/gnurl && \
-	[ ${GNURL_VERSION} = "latest" ] || git checkout ${GNURL_VERSION} && \
+	git checkout ${GNURL_VERSION} && \
 	./buildconf && \
 	./configure \
 		--enable-ipv6 --with-gnutls --without-libssh2 --without-libpsl \
@@ -120,7 +121,7 @@ RUN \
 	cd /opt/src && \
 	git clone https://git.gnunet.org/libmicrohttpd.git libmicrohttpd && \
 	cd /opt/src/libmicrohttpd && \
-	[ ${MHTTP_VERSION} = "latest" ] || git checkout ${MHTTP_VERSION} && \
+	git checkout ${MHTTP_VERSION} && \
 	./bootstrap && \
 	./configure --prefix=${GNUNET_PREFIX} && \
 	make && \
@@ -139,7 +140,7 @@ RUN \
 	cd /opt/src && \
 	git clone https://git.gnunet.org/gnunet.git gnunet && \
 	cd gnunet && \
-	[ ${GNUNET_VERSION} = "latest" ] || git checkout ${GNUNET_VERSION}
+	git checkout ${GNUNET_VERSION}
 
 #-----------------------------------------------------------
 # Build GNUnet core
@@ -154,7 +155,6 @@ RUN \
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
 		--enable-logging=verbose \
-		--with-sudo=sudo \
 		--with-microhttpd=${GNUNET_PREFIX} \
 		--with-libgnurl=${GNUNET_PREFIX} \
 		&& \
@@ -173,7 +173,7 @@ RUN \
 	cd /opt/src && \
 	git clone https://git.gnunet.org/gnunet-gtk.git gnunet-gtk && \
 	cd gnunet-gtk && \
-	[ ${GNUNET_GTK_VERSION} = "latest" ] || git checkout ${GNUNET_GTK_VERSION}
+	git checkout ${GNUNET_GTK_VERSION}
 
 #-----------------------------------------------------------
 # Build GNUnet GTK
