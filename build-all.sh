@@ -25,7 +25,7 @@
 export GNURL_VERSION=gnurl-7.72.0
 export MHTTP_VERSION=v0.9.73
 export GNUNET_VERSION=master
-export GNUNET_GTK_VERSION=v0.15.0
+export GNUNET_GTK_VERSION=v0.17.0
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
