@@ -98,7 +98,7 @@ RUN \
 	git clone https://git.taler.net/gnurl.git gnurl && \
 	cd /opt/src/gnurl && \
 	git checkout ${GNURL_VERSION} && \
-	./buildconf && \
+	autoreconf -fi && \
 	./configure \
 		--enable-ipv6 --with-gnutls --without-libssh2 --without-libpsl \
 		--without-libmetalink --without-winidn --without-librtmp \
