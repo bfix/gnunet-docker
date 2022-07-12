@@ -90,8 +90,6 @@ if [ "${MODE}" == "sync" ]; then
 	done
 fi
 
-rm -f ${BUILD_LOG}
-
 echo "*** Building 'gnurl'" | tee -a ${BUILD_LOG}
 cd /opt/src/gnurl
 if [ ${SYNC["gnurl"]} -eq 1 ]; then
