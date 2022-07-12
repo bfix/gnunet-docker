@@ -116,7 +116,7 @@ echo "*** Building 'libmicrohttpd'" | tee -a ${BUILD_LOG}
 cd /opt/src/libmicrohttpd
 if [ ${SYNC["libmicrohttpd"]} -eq 1 ]; then
 	git checkout ${MHTTP_VERSION} >> ${BUILD_LOG} 2>&1
-	./bootstrap > ${BUILD_LOG} 2>&1
+	./bootstrap >> ${BUILD_LOG} 2>&1
 	./configure --prefix=${GNUNET_PREFIX} >> ${BUILD_LOG} 2>&1
 fi
 make >> ${BUILD_LOG} 2>&1
