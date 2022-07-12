@@ -19,7 +19,6 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 
 export GNUNET_RUNTIME=${1:-/usr/local/gnunet/rt}
-export GNUNET_SOURCE=${2:-/usr/local/gnunet/src}
 
 if [ ! -d ${GNUNET_RUNTIME}/user -a ! -d ${GNUNET_RUNTIME}/system ]; then
 	echo "No valid runtime directory '${GNUNET_RUNTIME}'..."
@@ -33,7 +32,7 @@ docker run --rm -ti --name gnunet-dev -h gnunet-dev \
 	-v ${GNUNET_RUNTIME}/user:/home/user \
 	-v ${GNUNET_RUNTIME}/system:/var/lib/gnunet \
 	-v ${GNUNET_RUNTIME}/build:/opt/gnunet \
-	-v ${GNUNET_SOURCE}:/opt/src \
+	-v ${GNUNET_RUNTIME}/src:/opt/src \
 	-p 0.0.0.0:2086:2086 \
 	-p 0.0.0.0:1080:1080 \
 	bfix/gnunet:dev

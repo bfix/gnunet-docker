@@ -152,28 +152,24 @@ an image using the `mk_dev` script.
 #### Running the container
 
 The container is run using the `run_dev` script (that you need to customize
-for the local directories on your host system). The directories are
-specified at the beginning of the script:
+for a local directory on your host system). The directory is specified at
+the beginning of the script:
 
 ```bash
 export GNUNET_RUNTIME=${1:-/usr/local/gnunet/rt}
-export GNUNET_SOURCE=${2:-/usr/local/gnunet/src}
 ```
 
-The first directory `GNUNET_RUNTIME` maps three subfolders into the container:
+The directory `GNUNET_RUNTIME` maps three subfolders into the container:
 the home directories for the user `gnunet` (GNUnet system account); `user`
-(GNUnet user account) and `build` for the compiled binaries. If you have
-created these folders yourself (and not by running the `init_deploy` script),
-make sure that your folders have the following uid/gid assignments:
+(GNUnet user account), `build` for the compiled binaries and `src` to hold
+the source repositories. If you have created these folders yourself (and
+not by running the `init_deploy` script), make sure that your folders have
+the following uid/gid assignments:
 
 * `${GNUNET_RUNTIME}/user`:   (uid=1000/gid=1000)
 * `${GNUNET_RUNTIME}/system`: (uid=666 /gid=666 )
 * `${GNUNET_RUNTIME}/build`:  (uid=1000/gid=1000)
-
-The second directory `GNUNET_SOURCE` maps the root of the existing source
-directories (especially `libmicrohttpd`, `gnunet` and `gnunet-gtk`) into the
-container at run-time. Make sure that your source directories are owned
-by user id '1000' with group id '1000'.
+* `${GNUNET_RUNTIME}/src`:    (uid=1000/gid=1000)
 
 If the container is started (it opens a bash shell), you need to run
 `sudo /sbin/ldconfig` first before trying to start GNUnet. This is mandatory
