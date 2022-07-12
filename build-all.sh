@@ -22,10 +22,10 @@
 # Build GNUnet binaries and libraries.
 ########################################################################
 
-export GNURL_VERSION=gnurl-7.72.0
-export MHTTP_VERSION=v0.9.73
+export GNURL_VERSION=master
+export MHTTP_VERSION=master
 export GNUNET_VERSION=master
-export GNUNET_GTK_VERSION=v0.17.0
+export GNUNET_GTK_VERSION=master
 export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
