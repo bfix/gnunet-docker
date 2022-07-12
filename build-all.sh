@@ -35,6 +35,12 @@ VERSION["libmicrohttpd"]="${MHTTP_VERSION}"
 VERSION["gnunet"]="${GNUNET_VERSION}"
 VERSION["gnunet-gtk"]="${GNUNET_GTK_VERSION}"
 
+declare -A REPO
+REPO["gnurl"]="https://git.taler.net/gnurl.git"
+REPO["libmicrohttpd"]="https://git.gnunet.org/libmicrohttpd.git"
+REPO["gnunet"]="https://git.gnunet.org/gnunet.git"
+REPO["gnunet-gtk"]="https://git.gnunet.org/gnunet-gtk.git"
+
 declare -A SYNC
 SYNC["gnurl"]=0
 SYNC["libmicrohttpd"]=0
@@ -43,21 +49,42 @@ SYNC["gnunet-gtk"]=0
 
 ########################################################################
 
-if [ "$1" == "sync" ]; then
-	echo ">>> Pull changes from repos:"
-	echo "WARNING: local changes are dropped!"
+MODE=$1
+
+# start logging
+echo "************************************************" | tee ${BUILD_LOG}
+echo "Build started on $(date)" | tee -a ${BUILD_LOG}
+echo "************************************************" | tee -a ${BUILD_LOG}
+
+# check if repos exist
+pushd /opt/src/ > /dev/null
+for pkg in "${!REPO[@]}"; do
+	if [ ! -d ${pkg} ]; then
+		echo ">>> Cloning repository ${pkg} from ${REPO[${pkg}]} ..." | tee -a ${BUILD_LOG}
+		git clone ${REPO[${pkg}]} ${pkg} >> ${BUILD_LOG} 2>&1
+		SYNC[${pkg}]=1
+	fi
+done
+popd > /dev/null
+
+if [ "${MODE}" == "sync" ]; then
+	echo ">>> Pull changes from repos:" | tee -a ${BUILD_LOG}
+	echo "WARNING: local changes are dropped!" | tee -a ${BUILD_LOG}
 	# pull files
 	for pkg in "${!VERSION[@]}"; do
+		# skip newly cloned repos
+		[ ${SYNC[${pkg}]} -eq 1 ] && continue
+
 		cd /opt/src/${pkg}
-		echo ">>>     * ${pkg}"
-		git remote update
+		echo ">>>     * ${pkg}" | tee -a ${BUILD_LOG}
+		git remote update >> ${BUILD_LOG} 2>&1
 		local=$(git rev-parse @)
 		remote=$(git rev-parse '@{u}')
 		base=$(git merge-base @ '@{u}')
 		if [ "${local}" != "${remote}" -a "${local}" = "${base}" ]; then
-			echo "Pulling updates..."
-			git reset --hard
-			git pull
+			echo "Pulling updates..." | tee -a ${BUILD_LOG}
+			git reset --hard >> ${BUILD_LOG} 2>&1
+			git pull >> ${BUILD_LOG} 2>&1
 			SYNC[${pkg}]=1
 		fi
 	done
@@ -65,11 +92,11 @@ fi
 
 rm -f ${BUILD_LOG}
 
-echo "*** Building 'gnurl'"
+echo "*** Building 'gnurl'" | tee -a ${BUILD_LOG}
 cd /opt/src/gnurl
 if [ ${SYNC["gnurl"]} -eq 1 ]; then
-	git checkout ${GNURL_VERSION}
-	./buildconf >> ${BUILD_LOG}
+	git checkout ${GNURL_VERSION} >> ${BUILD_LOG} 2>&1
+	autoreconf -fi >> ${BUILD_LOG} 2>&1
 	./configure \
 		--enable-ipv6 --with-gnutls --without-libssh2 \
 		--without-libmetalink --without-winidn --without-librtmp \
@@ -80,46 +107,50 @@ if [ ${SYNC["gnurl"]} -eq 1 ]; then
 		--disable-pop3 --disable-imap --disable-smtp --disable-gopher \
 		--disable-file --disable-ftp --disable-smb --disable-ntlm-wb \
 		--prefix=${GNUNET_PREFIX} \
-		>> ${BUILD_LOG}
+		>> ${BUILD_LOG} 2>&1
 fi
-make >> ${BUILD_LOG}
-make install >> ${BUILD_LOG}
+make >> ${BUILD_LOG} 2>&1
+make install >> ${BUILD_LOG} 2>&1
 
-echo "*** Building 'libmicrohttpd'"
+echo "*** Building 'libmicrohttpd'" | tee -a ${BUILD_LOG}
 cd /opt/src/libmicrohttpd
 if [ ${SYNC["libmicrohttpd"]} -eq 1 ]; then
-	git checkout ${MHTTP_VERSION}
-	./bootstrap > ${BUILD_LOG}
-	./configure --prefix=${GNUNET_PREFIX} >> ${BUILD_LOG}
+	git checkout ${MHTTP_VERSION} >> ${BUILD_LOG} 2>&1
+	./bootstrap > ${BUILD_LOG} 2>&1
+	./configure --prefix=${GNUNET_PREFIX} >> ${BUILD_LOG} 2>&1
 fi
-make >> ${BUILD_LOG}
-make install >> ${BUILD_LOG}
+make >> ${BUILD_LOG} 2>&1
+make install >> ${BUILD_LOG} 2>&1
 
-echo "*** Building 'gnunet'"
+echo "*** Building 'gnunet'" | tee -a ${BUILD_LOG}
 cd /opt/src/gnunet
 mkdir -p ${GNUNET_PREFIX}
 if [ ${SYNC["gnunet"]} -eq 1 ]; then
-	git checkout ${GNUNET_VERSION}
-	./bootstrap >> ${BUILD_LOG}
+	git checkout ${GNUNET_VERSION} >> ${BUILD_LOG} 2>&1
+	./bootstrap >> ${BUILD_LOG} 2>&1
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
 		--enable-logging=verbose \
 		--with-microhttpd=${GNUNET_PREFIX} \
 		--with-libgnurl=${GNUNET_PREFIX} \
-		>> ${BUILD_LOG}
+		>> ${BUILD_LOG} 2>&1
 fi
-make >> ${BUILD_LOG}
-make install >> ${BUILD_LOG}
+make >> ${BUILD_LOG} 2>&1
+make install >> ${BUILD_LOG} 2>&1
 
-echo "*** Building 'gnunet-gtk'"
+echo "*** Building 'gnunet-gtk'" | tee -a ${BUILD_LOG}
 cd /opt/src/gnunet-gtk
 if [ ${SYNC["gnunet-gtk"]} -eq 1 ]; then
-	git checkout ${GNUNET_GTK_VERSION}
-	./bootstrap >> ${BUILD_LOG}
+	git checkout ${GNUNET_GTK_VERSION} >> ${BUILD_LOG} 2>&1
+	./bootstrap >> ${BUILD_LOG} 2>&1
 	./configure \
 		--prefix=${GNUNET_PREFIX} \
 		--with-gnunet=${GNUNET_PREFIX} \
-		>> ${BUILD_LOG}
+		>> ${BUILD_LOG} 2>&1
 fi
-make >> ${BUILD_LOG}
-make install >> ${BUILD_LOG}
+make >> ${BUILD_LOG} 2>&1
+make install >> ${BUILD_LOG} 2>&1
+
+echo "************************************************" | tee -a ${BUILD_LOG}
+echo "Build finished on $(date)" | tee -a ${BUILD_LOG}
+echo "************************************************" | tee -a ${BUILD_LOG}
