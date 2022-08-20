@@ -81,6 +81,7 @@ RUN \
 		texinfo \
 		texi2html \
 		uncrustify \
+		valgrind \
 		vim \
 		yapf3 \
 		zlib1g-dev \
