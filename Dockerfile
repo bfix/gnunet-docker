@@ -27,7 +27,7 @@ LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
 ENV GNURL_VERSION gnurl-7.72.0
 ENV MHTTP_VERSION v0.9.73
-ENV GNUNET_VERSION v0.17.1
+ENV GNUNET_VERSION v0.17.3
 ENV GNUNET_GTK_VERSION v0.17.0
 
 ENV GNUNET_PREFIX  /opt/gnunet
@@ -77,6 +77,8 @@ RUN \
 		miniupnpc \
 		net-tools \
 		openssl \
+		python3-sphinx \
+		python3-sphinx-rtd-theme \
 		python3-zbar \
 		recutils \
 		texinfo \
