@@ -84,6 +84,7 @@ if [ "${MODE}" == "sync" ]; then
 		if [ "${local}" != "${remote}" -a "${local}" = "${base}" ]; then
 			echo "Pulling updates..." | tee -a ${BUILD_LOG}
 			git reset --hard >> ${BUILD_LOG} 2>&1
+			git clean -d --force >> ${BUILD_LOG} 2>&1
 			git pull >> ${BUILD_LOG} 2>&1
 			SYNC[${pkg}]=1
 		fi
