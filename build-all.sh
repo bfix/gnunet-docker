@@ -22,7 +22,6 @@
 # Build GNUnet binaries and libraries.
 ########################################################################
 
-export GNURL_VERSION=master
 export MHTTP_VERSION=master
 export GNUNET_VERSION=master
 export GNUNET_GTK_VERSION=master
@@ -30,19 +29,16 @@ export GNUNET_PREFIX=/opt/gnunet
 export BUILD_LOG=~/build-all.log
 
 declare -A VERSION
-VERSION["gnurl"]="${GNURL_VERSION}"
 VERSION["libmicrohttpd"]="${MHTTP_VERSION}"
 VERSION["gnunet"]="${GNUNET_VERSION}"
 VERSION["gnunet-gtk"]="${GNUNET_GTK_VERSION}"
 
 declare -A REPO
-REPO["gnurl"]="https://git.taler.net/gnurl.git"
 REPO["libmicrohttpd"]="https://git.gnunet.org/libmicrohttpd.git"
 REPO["gnunet"]="https://git.gnunet.org/gnunet.git"
 REPO["gnunet-gtk"]="https://git.gnunet.org/gnunet-gtk.git"
 
 declare -A SYNC
-SYNC["gnurl"]=0
 SYNC["libmicrohttpd"]=0
 SYNC["gnunet"]=0
 SYNC["gnunet-gtk"]=0
@@ -90,26 +86,6 @@ if [ "${MODE}" == "sync" ]; then
 		fi
 	done
 fi
-
-echo "*** Building 'gnurl'" | tee -a ${BUILD_LOG}
-cd /opt/src/gnurl
-if [ ${SYNC["gnurl"]} -eq 1 ]; then
-	git checkout ${GNURL_VERSION} >> ${BUILD_LOG} 2>&1
-	autoreconf -fi >> ${BUILD_LOG} 2>&1
-	./configure \
-		--enable-ipv6 --with-gnutls --without-libssh2 \
-		--without-libmetalink --without-winidn --without-librtmp \
-		--without-nghttp2 --without-nss --without-cyassl \
-		--without-ssl --without-winssl --without-libpsl \
-		--without-darwinssl --disable-sspi --disable-ldap \
-		--disable-rtsp --disable-dict --disable-telnet --disable-tftp \
-		--disable-pop3 --disable-imap --disable-smtp --disable-gopher \
-		--disable-file --disable-ftp --disable-smb --disable-ntlm-wb \
-		--prefix=${GNUNET_PREFIX} \
-		>> ${BUILD_LOG} 2>&1
-fi
-make >> ${BUILD_LOG} 2>&1
-make install >> ${BUILD_LOG} 2>&1
 
 echo "*** Building 'libmicrohttpd'" | tee -a ${BUILD_LOG}
 cd /opt/src/libmicrohttpd

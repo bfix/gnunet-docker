@@ -46,6 +46,7 @@ RUN \
 		git \
 		gnutls-bin \
 		iptables \
+		libcurl4-gnutls-dev \
 		libextractor-dev \
 		libidn11-dev \
 		libgcrypt-dev \

@@ -25,7 +25,6 @@ FROM debian:bullseye AS builder
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
-ENV GNURL_VERSION gnurl-7.72.0
 ENV MHTTP_VERSION v0.9.73
 ENV GNUNET_VERSION v0.18.0
 ENV GNUNET_GTK_VERSION v0.17.0
@@ -52,6 +51,7 @@ RUN \
 		git \
 		gnutls-bin \
 		iptables \
+		libcurl4-gnutls-dev \
 		libextractor-dev \
 		libidn11-dev \
 		libgcrypt-dev \
@@ -88,31 +88,6 @@ RUN \
 	apt-get clean all && \
 	apt-get -y autoremove --purge && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
-#-----------------------------------------------------------
-# Install latest gnurl
-#-----------------------------------------------------------
-
-RUN \
-	mkdir -p /opt/src && \
-	cd /opt/src && \
-	git clone https://git.taler.net/gnurl.git gnurl && \
-	cd /opt/src/gnurl && \
-	git checkout ${GNURL_VERSION} && \
-	autoreconf -fi && \
-	./configure \
-		--enable-ipv6 --with-gnutls --without-libssh2 --without-libpsl \
-		--without-libmetalink --without-winidn --without-librtmp \
-		--without-nghttp2 --without-nss --without-cyassl \
-		--without-polarssl --without-ssl --without-winssl \
-		--without-darwinssl --disable-sspi --disable-ntlm-wb --disable-ldap \
-		--disable-rtsp --disable-dict --disable-telnet --disable-tftp \
-		--disable-pop3 --disable-imap --disable-smtp --disable-gopher \
-		--disable-file --disable-ftp --disable-smb --disable-ares \
-		--prefix=${GNUNET_PREFIX} && \
-	make && \
-	make install
 
 #-----------------------------------------------------------
 # Install latest libmicrohttpd
@@ -158,7 +133,6 @@ RUN \
 		--prefix=${GNUNET_PREFIX} \
 		--enable-logging=verbose \
 		--with-microhttpd=${GNUNET_PREFIX} \
-		--with-libgnurl=${GNUNET_PREFIX} \
 		&& \
 	make && \
 	make install
@@ -218,6 +192,7 @@ RUN \
 	apt-get install -y --no-install-recommends \
 		gnutls-bin \
 		libatomic1 \
+		libcurl3-gnutls \
 		libextractor3 \
 		libgladeui-2-13 \
 		libidn2-0 \
