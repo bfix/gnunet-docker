@@ -3,7 +3,7 @@
 # Dockerfile to build ">Y< GNUnet" compile & deploy image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019-2022 Bernd Fix  >Y<
+# Copyright (C) 2019-2023 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -25,9 +25,9 @@ FROM debian:bullseye AS builder
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
-ENV MHTTP_VERSION v0.9.73
-ENV GNUNET_VERSION v0.18.0
-ENV GNUNET_GTK_VERSION v0.17.0
+ENV MHTTP_VERSION v0.9.75
+ENV GNUNET_VERSION v0.19.3
+ENV GNUNET_GTK_VERSION v0.19.2-1
 
 ENV GNUNET_PREFIX  /opt/gnunet
 
