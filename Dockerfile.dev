@@ -3,7 +3,7 @@
 # Dockerfile to build ">Y< GNUnet" development image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019-2023 Bernd Fix  >Y<
+# Copyright (C) 2019-2024 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -21,76 +21,57 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 ############################################################
 
-FROM debian:bullseye
+FROM debian:bookworm
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 #-----------------------------------------------------------
 # Install dependencies.
 #-----------------------------------------------------------
 
 RUN \
-	apt-get update && \
-	apt-get -y upgrade && \
-	apt-get -y install \
-		autoconf \
-		automake \
-		autopoint \
+	apt update && \
+	apt -y upgrade && \
+	apt -y install \
 		bluetooth \
 		build-essential \
-		ca-certificates \
-		gdb \
-		gettext \
 		git \
-		gnutls-bin \
 		iptables \
 		libcurl4-gnutls-dev \
 		libextractor-dev \
-		libidn11-dev \
 		libgcrypt-dev \
-		libgnutls28-dev \
 		libgladeui-dev \
 		libglpk-dev \
-		libgtk-3-dev \
-		libidn2-dev \
-		libjansson-dev \
+		libidn11-dev \
 		libjose-dev \
-		libltdl-dev \
-		libopus-dev \
 		libogg-dev \
+		libopus-dev \
 		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
 		libsodium-dev \
 		libsqlite3-dev \
-		libtool \
 		libunistring-dev \
 		libzbar-dev \
 		man \
 		miniupnpc \
 		net-tools \
-		openssh-client \
-		openssl \
 		parallel \
-		procps \
-		python3-sphinx \
-		python3-sphinx-rtd-theme \
 		python3-zbar \
 		recutils \
 		screen \
 		sudo \
-		texinfo \
 		texi2html \
+		texinfo \
 		uncrustify \
 		valgrind \
 		vim \
 		yapf3 \
-		zlib1g-dev \
 		&& \
-	apt-get clean all && \
-	apt-get -y autoremove --purge && \
+	apt clean all && \
+	apt -y autoremove --purge && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #-----------------------------------------------------------
@@ -133,8 +114,8 @@ RUN \
 #-----------------------------------------------------------
 
 USER user
-ENV HOME          /home/user
-ENV GNUNET_PREFIX /opt/gnunet
+ENV HOME=/home/user
+ENV GNUNET_PREFIX=/opt/gnunet
 CMD ["/bin/bash", "-l"]
 
 # expose standard and testing ports

@@ -3,7 +3,7 @@
 # Dockerfile to build ">Y< GNUnet" compile & deploy image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019-2023 Bernd Fix  >Y<
+# Copyright (C) 2019-2024 Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
@@ -21,50 +21,42 @@
 # SPDX-License-Identifier: AGPL3.0-or-later
 ############################################################
 
-FROM debian:bullseye AS builder
+FROM debian:bookworm AS builder
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
-ENV MHTTP_VERSION v0.9.75
-ENV GNUNET_VERSION v0.19.3
-ENV GNUNET_GTK_VERSION v0.19.2-1
+ENV MHTTP_VERSION=v0.9.75
+ENV GNUNET_VERSION=v0.21.2
+ENV GNUNET_GTK_VERSION=v0.21.0
 
-ENV GNUNET_PREFIX  /opt/gnunet
+ENV GNUNET_PREFIX=/opt/gnunet
 
 
 #-----------------------------------------------------------
 # Install dependencies.
 #-----------------------------------------------------------
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
-	apt-get update && \
-	apt-get -y upgrade && \
-	apt-get -y install --no-install-recommends \
-		autoconf \
-		automake \
+	apt update && \
+	apt -y upgrade && \
+	apt -y install --no-install-recommends \
 		autopoint \
 		bluetooth \
 		build-essential \
 		ca-certificates \
 		git \
-		gnutls-bin \
 		iptables \
 		libcurl4-gnutls-dev \
 		libextractor-dev \
-		libidn11-dev \
 		libgcrypt-dev \
-		libgnutls28-dev \
 		libgladeui-dev \
 		libglpk-dev \
-		libgtk-3-dev \
-		libidn2-dev \
-		libjansson-dev \
+		libidn11-dev \
 		libjose-dev \
-		libltdl-dev \
-		libopus-dev \
 		libogg-dev \
+		libopus-dev \
 		libpq-dev \
 		libpulse-dev \
 		libqrencode-dev \
@@ -75,18 +67,15 @@ RUN \
 		libunistring-dev \
 		libzbar-dev \
 		miniupnpc \
-		net-tools \
-		openssl \
 		python3-sphinx \
 		python3-sphinx-rtd-theme \
 		python3-zbar \
 		recutils \
-		texinfo \
 		texi2html \
-		zlib1g-dev \
-		&& \
-	apt-get clean all && \
-	apt-get -y autoremove --purge && \
+		texinfo \
+	&& \
+	apt clean all && \
+	apt -y autoremove --purge && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #-----------------------------------------------------------
@@ -177,11 +166,11 @@ RUN \
 # Deployment image
 #===========================================================
 
-FROM debian:bullseye
+FROM debian:bookworm AS deploy
 
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 #-----------------------------------------------------------
 # Install dependencies.
@@ -195,13 +184,9 @@ RUN \
 		libcurl3-gnutls \
 		libextractor3 \
 		libgladeui-2-13 \
-		libidn2-0 \
-		libltdl7 \
 		libnss3-tools \
 		libqrencode4 \
-		libsodium23 \
 		libsqlite3-0 \
-		libunistring2 \
 		openssl \
 		procps \
 		screen \
@@ -260,7 +245,7 @@ RUN \
 #-----------------------------------------------------------
 
 USER user
-ENV HOME /home/user
+ENV HOME=/home/user
 CMD ["/bin/bash", "-l"]
 
 EXPOSE 1080 2086

@@ -23,13 +23,13 @@ SPDX-License-Identifier: AGPL3.0-or-later
 The deploy image is build in a multi-stage build from `Dockerfile`:
 
 The "builder" stage is used to compile GNUnet (core and Gtk) from source code
-that is pulled from the official GNUnet Git repository (https://gnunet.org/git/).
+that is pulled from the [official GNUnet Git repository](https://gnunet.org/git/).
 The compiled binaries (programs and libraries) are packaged into a tar.gz; the
 archive will later be used to install GNUnet into the deployment image.
 
 The Dockerfile specifies the Git revision/tag of the GNUnet repository to be
-build (`ENV GNUNET_VERSION v0.11.0`) and needs be be changed if you want
-to build a different version of GNUnet. Use `ENV GNUNET_VERSION latest` to
+build (`ENV GNUNET_VERSION=v0.21.2`) and needs be be changed if you want
+to build a different version of GNUnet. Use `ENV GNUNET_VERSION=latest` to
 build the latest version of GNUnet. The specified version must be consistent
 between core and Gtk repositories.
 

@@ -1,7 +1,7 @@
 [
 	{
 		"name": "bfix/gnunet:latest",
-		"deps": "debian:bullseye",
+		"deps": "debian:bookworm",
 		"files": [
 			"Dockerfile",
 			"build-all.sh",
@@ -16,7 +16,7 @@
 	},
 	{
 		"name": "bfix/gnunet:dev",
-		"deps": "debian:bullseye",
+		"deps": "debian:bookworm",
 		"files": [
 			"Dockerfile.dev",
 			"build-all.sh",
