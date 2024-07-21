@@ -3,7 +3,7 @@
 # Dockerfile to build ">Y< GNUnet" compile & deploy image.
 #
 # This file is part of gnunet-docker.
-# Copyright (C) 2019-2024 Bernd Fix  >Y<
+# Copyright (C) 2019-present, Bernd Fix  >Y<
 #
 # gnunet-docker is free software: you can redistribute it and/or modify it
 # under the terms of the GNU Affero General Public License as published
