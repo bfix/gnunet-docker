@@ -179,6 +179,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN \
 	apt-get update && \
 	apt-get install -y --no-install-recommends \
+		gettext \
 		gnutls-bin \
 		libatomic1 \
 		libcurl3-gnutls \

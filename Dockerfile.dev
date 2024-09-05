@@ -38,6 +38,7 @@ RUN \
 		bluetooth \
 		build-essential \
 		git \
+		gettext \
 		iptables \
 		libcurl4-gnutls-dev \
 		libextractor-dev \
