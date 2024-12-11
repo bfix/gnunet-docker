@@ -18,5 +18,9 @@
 #
 # SPDX-License-Identifier: AGPL3.0-or-later
 
-docker build -f Dockerfile.dev -t bfix/gnunet:dev .
+OPTS=""
+if [ "$1" = "R" ]; then
+    OPTS="--no-cache"
+fi
 
+docker build -f Dockerfile.dev ${OPTS} -t bfix/gnunet:dev .

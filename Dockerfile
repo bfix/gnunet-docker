@@ -26,8 +26,8 @@ FROM debian:bookworm AS builder
 LABEL maintainer="Bernd Fix <brf@hoi-polloi.org>"
 
 ENV MHTTP_VERSION=v1.0.1
-ENV GNUNET_VERSION=v0.22.0
-ENV GNUNET_GTK_VERSION=v0.22.0
+ENV GNUNET_VERSION=v0.23.0
+ENV GNUNET_GTK_VERSION=v0.23.0
 
 ENV GNUNET_PREFIX=/opt/gnunet
 
